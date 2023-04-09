@@ -23,6 +23,16 @@ export function ShortcutDefault(): Shortcut {
   return { uuid: randomUUID(), command: "", when: "", hotkey: [] };
 }
 
+export interface Logo {
+  title: string;
+  source: string;
+  path: string;
+}
+
+export function LogoDefault(): Logo {
+  return { title: "", source: "", path: "" };
+}
+
 export async function getApps(): Promise<App[]> {
   const apps: string | undefined = await LocalStorage.getItem("applications");
   if (apps) {
@@ -65,7 +75,7 @@ export async function findShortcut(source: string, uuid: string): Promise<Shortc
   return null;
 }
 
-export function mapHotkeys(hotkeys: string[]): string {
+export function hotkeyToString(hotkeys: string[]): string {
   let hotkey = "";
   hotkeys.forEach((el) => {
     hotkey += el + " + ";
@@ -128,6 +138,6 @@ export function isValidShortcut(shortcut: Shortcut): boolean {
   return true;
 }
 
-export function arrayEmpty(data: string[] | Shortcut[]): boolean {
+export function arrayEmpty(data: string[] | Shortcut[] | App[]): boolean {
   return data.length === 0;
 }

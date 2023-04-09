@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Alert, Color, List, Toast, confirmAlert, showToast } from "@raycast/api";
-import { App, Shortcut, getShortcuts, getApps, setShortcuts, mapHotkeys, AppDefault } from "./utils";
+import { App, Shortcut, getShortcuts, getApps, setShortcuts, hotkeyToString, AppDefault } from "./utils";
 import { useEffect, useState } from "react";
-import { EditShortcut } from "./views/shortcuts/edit-shortcut";
+import { EditShortcut } from "./views/edit-shortcut";
 
 export default function Command() {
   const [appShortcuts, setAppShortcuts] = useState<Shortcut[]>([]);
@@ -49,7 +49,7 @@ export default function Command() {
             key={shortcut.command}
             title={shortcut.command}
             subtitle={shortcut.when}
-            accessories={[{ tag: { color: Color.PrimaryText, value: mapHotkeys(shortcut.hotkey) } }]}
+            accessories={[{ tag: { color: Color.PrimaryText, value: hotkeyToString(shortcut.hotkey) } }]}
             actions={
               <ActionPanel>
                 <Action

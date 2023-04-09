@@ -1,32 +1,75 @@
-import { Action, ActionPanel, Form } from "@raycast/api";
-import { App, Shortcut, ShortcutDefault } from "./utils";
-import { useEffect, useState } from "react";
-import { SupportedApplications } from "./assets/constants";
+import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
+import { useState } from "react";
+import { SupportedLogos } from "./assets/constants";
+import { App, getApps, setApps } from "./utils";
 
 export default function Command() {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [appName, setAppName] = useState<string>("");
+  const [logoSource, setLogoSource] = useState<string>("");
+
+  async function saveApp() {
+    if (appName.length === 0) {
+      showToast({
+        title: "App name empty",
+        style: Toast.Style.Failure,
+      });
+      return;
+    }
+
+    const apps = await getApps();
+    if (apps.some((el) => el.source === appName.toLowerCase())) {
+      showToast({
+        title: "Already existing source",
+        style: Toast.Style.Failure,
+      });
+      return;
+    }
+
+    const logo = SupportedLogos.find((el) => el.source === logoSource);
+    if (!logo) {
+      showToast({
+        title: "ERROR: logo not found.",
+        style: Toast.Style.Failure,
+      });
+      popToRoot();
+      return;
+    }
+
+    const toast = await showToast({
+      title: "Saving App",
+      style: Toast.Style.Animated,
+    });
+
+    const app: App = { title: appName, source: appName.toLowerCase(), icon: logo.path };
+    apps.push(app);
+    await setApps(apps);
+
+    toast.style = Toast.Style.Success;
+    toast.title = "App Saved";
+    popToRoot();
+  }
 
   return (
     <Form
-      isLoading={loading}
-      navigationTitle="Create New Shortcut"
+      navigationTitle="Create New App"
       actions={
         <ActionPanel>
-          <Action title="Save Shortcut" />
+          <Action.SubmitForm
+            title="Save App"
+            onSubmit={async () => {
+              await saveApp();
+            }}
+          />
         </ActionPanel>
       }
     >
-      <Form.Dropdown id="app" title="Which App" defaultValue="system">
-        {SupportedApplications.map((app: App) => {
-          return <Form.Dropdown.Item title={app.title} value={app.source} icon={app.icon} key={app.source} />;
+      <Form.TextField id="app-name" title="App Name" value={appName} onChange={setAppName} />
+      <Form.Description title="Source" text={appName.toLowerCase()} />
+      <Form.Dropdown id="logo" onChange={setLogoSource}>
+        {SupportedLogos.map((logo) => {
+          return <Form.Dropdown.Item title={logo.title} value={logo.source} icon={logo.path} key={logo.source} />;
         })}
       </Form.Dropdown>
-
-      <Form.Separator />
-
-      <Form.TextField id="title" title="Command" />
-      <Form.TextField id="when" title="When" />
-      <Form.TextField id="hotkey" title="Hotkey" />
     </Form>
   );
 }

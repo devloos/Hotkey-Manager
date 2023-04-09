@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
-import { App, Shortcut, getShortcuts, setShortcuts, isValidShortcut, formatHotkey } from "../../utils";
+import { App, Shortcut, getShortcuts, setShortcuts, isValidShortcut, formatHotkey } from "../utils";
 import { useState } from "react";
-import { Keys, ModifierKeys } from "../../assets/constants";
+import { Keys, ModifierKeys } from "../assets/constants";
 
 interface EditShortcutProps {
   app: App;
@@ -90,6 +90,6 @@ export function EditShortcut(props: EditShortcutProps) {
           return <Form.TagPicker.Item value={key} title={key} key={key} />;
         })}
       </Form.TagPicker>
-    </Form> //
+    </Form>
   );
 }

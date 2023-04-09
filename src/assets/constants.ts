@@ -26,7 +26,40 @@ export const SupportedApplications = [
   },
 ];
 
-export const ModifierKeys = ["hyper", "cmd", "ctrl", "opt", "shift"];
+export const SupportedLogos = [
+  {
+    title: "Default-1",
+    source: "default-1",
+    path: "apps/defaults/default-1.png",
+  },
+  {
+    title: "Default-2",
+    source: "default-2",
+    path: "apps/defaults/default-2.png",
+  },
+  {
+    title: "Default-3",
+    source: "default-3",
+    path: "apps/defaults/default-3.png",
+  },
+  {
+    title: "Default-4",
+    source: "default-4",
+    path: "apps/defaults/default-4.png",
+  },
+  {
+    title: "Default-5",
+    source: "default-5",
+    path: "apps/defaults/default-5.png",
+  },
+  {
+    title: "Default-6",
+    source: "default-6",
+    path: "apps/defaults/default-6.png",
+  },
+];
+
+export const ModifierKeys = ["hyper", "prefix", "cmd", "ctrl", "opt", "shift"];
 export const Keys = [
   "a",
   "b",

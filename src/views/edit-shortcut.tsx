@@ -1,6 +1,6 @@
 import { Toast, popToRoot, showToast } from "@raycast/api";
 import { App, Shortcut, isValidShortcut, formatHotkey } from "../utils";
-import { $_hotkey_getShortcuts, $_hotkey_setShortcuts } from "../assets/mixins";
+import { $_SM_getShortcuts, $_SM_setShortcuts } from "../assets/mixins";
 import { useState } from "react";
 import { ShortcutForm } from "../components/shortcut-form";
 
@@ -27,17 +27,17 @@ export function EditShortcut(props: EditShortcutProps) {
       title: "Saving Shortcut",
     });
 
-    const filteredShortcuts = (await $_hotkey_getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
+    const filteredShortcuts = (await $_SM_getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
     formatHotkey(shortcut.hotkey);
 
     if (app.source === source) {
       filteredShortcuts.push(shortcut);
-      await $_hotkey_setShortcuts(app.source, filteredShortcuts);
+      await $_SM_setShortcuts(app.source, filteredShortcuts);
     } else {
-      await $_hotkey_setShortcuts(app.source, filteredShortcuts);
-      const shortcuts = await $_hotkey_getShortcuts(source);
+      await $_SM_setShortcuts(app.source, filteredShortcuts);
+      const shortcuts = await $_SM_getShortcuts(source);
       shortcuts.push(shortcut);
-      await $_hotkey_setShortcuts(source, shortcuts);
+      await $_SM_setShortcuts(source, shortcuts);
     }
 
     toast.style = Toast.Style.Success;

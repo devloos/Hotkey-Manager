@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Form } from "@raycast/api";
 import { App, Shortcut } from "../utils";
-import { $_hotkey_getApps } from "../assets/mixins";
+import { $_SM_getApps } from "../assets/mixins";
 import { Keys, ModifierKeys } from "../assets/constants";
 import { useEffect, useState } from "react";
 
@@ -25,7 +25,7 @@ export function ShortcutForm(props: ShortcutFormProps) {
   useEffect(() => {
     const init = async () => {
       setLoading(true);
-      const data = await $_hotkey_getApps();
+      const data = await $_SM_getApps();
       setApps(data);
       setLoading(false);
     };

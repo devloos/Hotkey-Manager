@@ -1,6 +1,6 @@
 import { Action, ActionPanel, Alert, Color, List, Toast, confirmAlert, showToast } from "@raycast/api";
 import { App, Shortcut, hotkeyToString } from "../utils";
-import { $_hotkey_getShortcuts, $_hotkey_setShortcuts } from "../assets/mixins";
+import { $_SM_getShortcuts, $_SM_setShortcuts } from "../assets/mixins";
 import { EditShortcut } from "../views/edit-shortcut";
 
 interface ShortcutItemProps {
@@ -26,8 +26,8 @@ export default function ShortcutItem(props: ShortcutItemProps) {
       return;
     }
 
-    const shortcuts = (await $_hotkey_getShortcuts(app.source)).filter((el) => el.uuid !== shortcut.uuid);
-    await $_hotkey_setShortcuts(app.source, shortcuts);
+    const shortcuts = (await $_SM_getShortcuts(app.source)).filter((el) => el.uuid !== shortcut.uuid);
+    await $_SM_setShortcuts(app.source, shortcuts);
     props.setShortcuts(shortcuts);
     showToast({
       title: "Shortcut Deleted",

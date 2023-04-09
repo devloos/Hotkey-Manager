@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
-import { $_hotkey_getApps, $_hotkey_initializeState, $_hotkey_setApps } from "./assets/mixins";
+import { $_SM_getApps, $_SM_initializeState, $_SM_setApps } from "./assets/mixins";
 import { App } from "./utils";
 import { SupportedLogos } from "./assets/constants";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ export default function NewApp() {
       return;
     }
 
-    const apps = await $_hotkey_getApps();
+    const apps = await $_SM_getApps();
     if (apps.some((el) => el.source === appName.toLowerCase())) {
       showToast({
         title: "Already existing source",
@@ -43,7 +43,7 @@ export default function NewApp() {
 
     const app: App = { title: appName, source: appName.toLowerCase(), icon: logo.path };
     apps.push(app);
-    await $_hotkey_setApps(apps);
+    await $_SM_setApps(apps);
 
     toast.style = Toast.Style.Success;
     toast.title = "App Saved";
@@ -52,7 +52,7 @@ export default function NewApp() {
 
   useEffect(() => {
     const init = async () => {
-      await $_hotkey_initializeState();
+      await $_SM_initializeState();
     };
     init();
   }, []);

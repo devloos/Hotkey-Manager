@@ -1,4 +1,4 @@
-import { $_hotkey_getApps, $_hotkey_getShortcuts, $_hotkey_initializeState } from "./assets/mixins";
+import { $_SM_getApps, $_SM_getShortcuts, $_SM_initializeState } from "./assets/mixins";
 import { App, Shortcut, AppDefault } from "./utils";
 import { Action, ActionPanel, List } from "@raycast/api";
 import { useEffect, useState } from "react";
@@ -6,7 +6,7 @@ import ShortcutItem from "./components/shortcut-item";
 import NewShortcut from "./new-shortcut";
 import NewApp from "./new-app";
 
-export default function ListHotkeys() {
+export default function ListShortcuts() {
   const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [app, setApp] = useState<App>(AppDefault());
@@ -14,7 +14,7 @@ export default function ListHotkeys() {
 
   async function handleAppChange(src: string) {
     setLoading(true);
-    const shortcuts = await $_hotkey_getShortcuts(src);
+    const shortcuts = await $_SM_getShortcuts(src);
     setShortcuts(shortcuts);
 
     const currApp = apps.find((el) => el.source === src);
@@ -27,8 +27,8 @@ export default function ListHotkeys() {
   useEffect(() => {
     const init = async () => {
       setLoading(true);
-      await $_hotkey_initializeState();
-      const data = await $_hotkey_getApps();
+      await $_SM_initializeState();
+      const data = await $_SM_getApps();
       setApps(data);
       setLoading(false);
     };

@@ -1,7 +1,7 @@
 import { LocalStorage } from "@raycast/api";
 import { App, Shortcut } from "../utils";
 
-export async function $_hotkey_getApps(): Promise<App[]> {
+export async function $_SM_getApps(): Promise<App[]> {
   const apps: string | undefined = await LocalStorage.getItem("apps");
   if (apps) {
     return JSON.parse(apps);
@@ -10,11 +10,11 @@ export async function $_hotkey_getApps(): Promise<App[]> {
   return [];
 }
 
-export async function $_hotkey_setApps(apps: App[]) {
+export async function $_SM_setApps(apps: App[]) {
   await LocalStorage.setItem("apps", JSON.stringify(apps));
 }
 
-export async function $_hotkey_getShortcuts(source: string): Promise<Shortcut[]> {
+export async function $_SM_getShortcuts(source: string): Promise<Shortcut[]> {
   const shortcuts: string | undefined = await LocalStorage.getItem(source);
 
   if (shortcuts) {
@@ -24,11 +24,11 @@ export async function $_hotkey_getShortcuts(source: string): Promise<Shortcut[]>
   return [];
 }
 
-export async function $_hotkey_setShortcuts(source: string, shortcuts: Shortcut[]) {
+export async function $_SM_setShortcuts(source: string, shortcuts: Shortcut[]) {
   await LocalStorage.setItem(source, JSON.stringify(shortcuts));
 }
 
-export async function $_hotkey_initializeState() {
+export async function $_SM_initializeState() {
   const DefaultState = [
     {
       title: "System",

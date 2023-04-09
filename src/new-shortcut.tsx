@@ -1,6 +1,6 @@
 import { Toast, popToRoot, showToast } from "@raycast/api";
 import { isValidShortcut, Shortcut, formatHotkey, ShortcutDefault } from "./utils";
-import { $_hotkey_getShortcuts, $_hotkey_initializeState, $_hotkey_setShortcuts } from "./assets/mixins";
+import { $_SM_getShortcuts, $_SM_initializeState, $_SM_setShortcuts } from "./assets/mixins";
 import { useEffect } from "react";
 import { ShortcutForm } from "./components/shortcut-form";
 
@@ -16,10 +16,10 @@ export default function NewShortcut() {
       title: "Saving Shortcut",
     });
 
-    const shortcuts = await $_hotkey_getShortcuts(source);
+    const shortcuts = await $_SM_getShortcuts(source);
     formatHotkey(shortcut.hotkey);
     shortcuts.push(shortcut);
-    await $_hotkey_setShortcuts(source, shortcuts);
+    await $_SM_setShortcuts(source, shortcuts);
 
     toast.style = Toast.Style.Success;
     toast.title = "Shortcut Saved";
@@ -28,7 +28,7 @@ export default function NewShortcut() {
 
   useEffect(() => {
     const init = async () => {
-      await $_hotkey_initializeState();
+      await $_SM_initializeState();
     };
 
     init();

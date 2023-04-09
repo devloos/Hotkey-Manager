@@ -1,9 +1,9 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "hotkey-manager",
-  "title": "Hotkey Manager",
-  "description": "Manages any hotkeys",
-  "icon": "extension/hotkey-manager.png",
+  "name": "shortcut-manager",
+  "title": "Shortcut Manager",
+  "description": "Manages any shortcut",
+  "icon": "extension/shortcut-manager.png",
   "author": "devlos",
   "categories": [
     "Developer Tools",
@@ -13,8 +13,8 @@
   "commands": [
     {
       "name": "index",
-      "title": "Hotkey List",
-      "description": "List of hotkey filtered by application",
+      "title": "List Shortcuts",
+      "description": "List of shortcuts filtered by application",
       "mode": "view"
     },
     {

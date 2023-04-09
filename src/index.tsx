@@ -6,7 +6,7 @@ import ShortcutItem from "./components/shortcut-item";
 import NewShortcut from "./new-shortcut";
 import NewApp from "./new-app";
 
-export default function HotkeyList() {
+export default function ListHotkeys() {
   const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [app, setApp] = useState<App>(AppDefault());

@@ -1,3 +1,3 @@
-# Hotkey Manager
+# Shortcut Manager
 
-Manages any hotkeys
+Manages any shortcuts

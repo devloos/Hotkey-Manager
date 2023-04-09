@@ -1,4 +1,4 @@
-import { LocalStorage, Toast, showToast } from "@raycast/api";
+import { Toast, showToast } from "@raycast/api";
 import { randomUUID } from "crypto";
 import { ModifierKeys } from "./assets/constants";
 
@@ -31,48 +31,6 @@ export interface Logo {
 
 export function LogoDefault(): Logo {
   return { title: "", source: "", path: "" };
-}
-
-export async function getApps(): Promise<App[]> {
-  const apps: string | undefined = await LocalStorage.getItem("applications");
-  if (apps) {
-    return JSON.parse(apps);
-  }
-
-  return [];
-}
-
-export async function setApps(apps: App[]) {
-  await LocalStorage.setItem("applications", JSON.stringify(apps));
-}
-
-export async function getShortcuts(source: string): Promise<Shortcut[]> {
-  const shortcuts: string | undefined = await LocalStorage.getItem(source);
-
-  if (shortcuts) {
-    return JSON.parse(shortcuts);
-  }
-
-  return [];
-}
-
-export async function setShortcuts(source: string, shortcuts: Shortcut[]) {
-  await LocalStorage.setItem(source, JSON.stringify(shortcuts));
-}
-
-export async function findShortcut(source: string, uuid: string): Promise<Shortcut | null> {
-  const shortcuts = await getShortcuts(source);
-  if (arrayEmpty(shortcuts)) {
-    return null;
-  }
-
-  const shortcut = shortcuts.find((shortcut: Shortcut) => shortcut.uuid === uuid);
-
-  if (shortcut) {
-    return shortcut;
-  }
-
-  return null;
 }
 
 export function hotkeyToString(hotkeys: string[]): string {

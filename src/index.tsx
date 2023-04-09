@@ -1,18 +1,24 @@
 import { Action, ActionPanel, Alert, Color, List, Toast, confirmAlert, showToast } from "@raycast/api";
-import { App, Shortcut, getShortcuts, getApps, setShortcuts, hotkeyToString, AppDefault } from "./utils";
-import { useEffect, useState } from "react";
+import { App, Shortcut, hotkeyToString, AppDefault } from "./utils";
+import {
+  $_hotkey_getApps,
+  $_hotkey_getShortcuts,
+  $_hotkey_initializeState,
+  $_hotkey_setShortcuts,
+} from "./assets/mixins";
 import { EditShortcut } from "./views/edit-shortcut";
+import { useEffect, useState } from "react";
 
 export default function Command() {
-  const [appShortcuts, setAppShortcuts] = useState<Shortcut[]>([]);
+  const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [app, setApp] = useState<App>(AppDefault());
   const [loading, setLoading] = useState<boolean>(false);
 
   async function handleAppChange(src: string) {
     setLoading(true);
-    const appShortcuts = await getShortcuts(src);
-    setAppShortcuts(appShortcuts);
+    const shortcuts = await $_hotkey_getShortcuts(src);
+    setShortcuts(shortcuts);
 
     const currApp = apps.find((el) => el.source === src);
     if (currApp) {
@@ -22,14 +28,15 @@ export default function Command() {
   }
 
   useEffect(() => {
-    const fetchApps = async () => {
+    const init = async () => {
       setLoading(true);
-      const data = await getApps();
+      await $_hotkey_initializeState();
+      const data = await $_hotkey_getApps();
       setApps(data);
       setLoading(false);
     };
 
-    fetchApps();
+    init();
   }, []);
 
   return (
@@ -43,7 +50,7 @@ export default function Command() {
         </List.Dropdown>
       }
     >
-      {appShortcuts.map((shortcut: Shortcut) => {
+      {shortcuts.map((shortcut: Shortcut) => {
         return (
           <List.Item
             key={shortcut.command}
@@ -73,9 +80,9 @@ export default function Command() {
                     };
 
                     if (await confirmAlert(options)) {
-                      const newShortcuts = appShortcuts.filter((el) => el.uuid !== shortcut.uuid);
-                      setAppShortcuts(newShortcuts);
-                      await setShortcuts(app.source, newShortcuts);
+                      const newShortcuts = shortcuts.filter((el) => el.uuid !== shortcut.uuid);
+                      setShortcuts(newShortcuts);
+                      await $_hotkey_setShortcuts(app.source, newShortcuts);
                       showToast({
                         title: "Shortcut Deleted",
                         style: Toast.Style.Success,

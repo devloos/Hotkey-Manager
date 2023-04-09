@@ -1,8 +1,14 @@
 import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
-import { App, getApps, getShortcuts, setShortcuts, isValidShortcut, Shortcut, formatHotkey, arrayEmpty } from "./utils";
+import { App, isValidShortcut, Shortcut, formatHotkey } from "./utils";
+import {
+  $_hotkey_getApps,
+  $_hotkey_getShortcuts,
+  $_hotkey_initializeState,
+  $_hotkey_setShortcuts,
+} from "./assets/mixins";
+import { Keys, ModifierKeys } from "./assets/constants";
 import { useEffect, useState } from "react";
 import { randomUUID } from "crypto";
-import { Keys, ModifierKeys } from "./assets/constants";
 
 export default function Command() {
   const [apps, setApps] = useState<App[]>([]);
@@ -23,10 +29,10 @@ export default function Command() {
       title: "Saving Shortcut",
     });
 
-    const shortcuts = await getShortcuts(source);
+    const shortcuts = await $_hotkey_getShortcuts(source);
     formatHotkey(shortcut.hotkey);
     shortcuts.push(shortcut);
-    await setShortcuts(source, shortcuts);
+    await $_hotkey_setShortcuts(source, shortcuts);
 
     toast.style = Toast.Style.Success;
     toast.title = "Shortcut Saved";
@@ -34,24 +40,15 @@ export default function Command() {
   }
 
   useEffect(() => {
-    const fetchApps = async () => {
+    const init = async () => {
       setLoading(true);
-      const data = await getApps();
-      if (arrayEmpty(data)) {
-        showToast({
-          title: "Please create/enable an app",
-          style: Toast.Style.Failure,
-        });
-
-        setTimeout(() => {
-          popToRoot();
-        }, 1500);
-      }
+      await $_hotkey_initializeState();
+      const data = await $_hotkey_getApps();
       setApps(data);
       setLoading(false);
     };
 
-    fetchApps();
+    init();
   }, []);
 
   return (

@@ -5,14 +5,14 @@ export const SupportedApplications = [
     icon: "apps/system.png",
   },
   {
-    title: "Vscode",
-    source: "vscode",
-    icon: "apps/vscode.png",
-  },
-  {
     title: "Raycast",
     source: "raycast",
     icon: "apps/raycast.png",
+  },
+  {
+    title: "Vscode",
+    source: "vscode",
+    icon: "apps/vscode.png",
   },
   {
     title: "tmux",

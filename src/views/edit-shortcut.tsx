@@ -1,7 +1,8 @@
 import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
-import { App, Shortcut, getShortcuts, setShortcuts, isValidShortcut, formatHotkey } from "../utils";
-import { useState } from "react";
+import { App, Shortcut, isValidShortcut, formatHotkey } from "../utils";
+import { $_hotkey_getShortcuts, $_hotkey_setShortcuts } from "../assets/mixins";
 import { Keys, ModifierKeys } from "../assets/constants";
+import { useState } from "react";
 
 interface EditShortcutProps {
   app: App;
@@ -27,10 +28,10 @@ export function EditShortcut(props: EditShortcutProps) {
       title: "Saving Shortcut",
     });
 
-    const shortcuts = (await getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
+    const shortcuts = (await $_hotkey_getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
     formatHotkey(st.hotkey);
     shortcuts.push(st);
-    await setShortcuts(app.source, shortcuts);
+    await $_hotkey_setShortcuts(app.source, shortcuts);
 
     toast.style = Toast.Style.Success;
     toast.title = "Shortcut Saved";

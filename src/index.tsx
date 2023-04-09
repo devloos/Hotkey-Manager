@@ -1,10 +1,12 @@
 import { $_hotkey_getApps, $_hotkey_getShortcuts, $_hotkey_initializeState } from "./assets/mixins";
 import { App, Shortcut, AppDefault } from "./utils";
-import { List } from "@raycast/api";
+import { Action, ActionPanel, List } from "@raycast/api";
 import { useEffect, useState } from "react";
 import ShortcutItem from "./components/shortcut-item";
+import NewShortcut from "./new-shortcut";
+import NewApp from "./new-app";
 
-export default function Command() {
+export default function HotkeyList() {
   const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [app, setApp] = useState<App>(AppDefault());
@@ -43,6 +45,12 @@ export default function Command() {
             return <List.Dropdown.Item title={app.title} value={app.source} icon={app.icon} key={app.source} />;
           })}
         </List.Dropdown>
+      }
+      actions={
+        <ActionPanel>
+          <Action.Push title="Create New Shortcut" target={<NewShortcut />} />
+          <Action.Push title="Create New App" target={<NewApp />} />
+        </ActionPanel>
       }
     >
       {shortcuts.map((shortcut: Shortcut) => {

@@ -4,7 +4,7 @@ import { App } from "./utils";
 import { SupportedLogos } from "./assets/constants";
 import { useEffect, useState } from "react";
 
-export default function Command() {
+export default function NewApp() {
   const [appName, setAppName] = useState<string>("");
   const [logoSource, setLogoSource] = useState<string>("");
 

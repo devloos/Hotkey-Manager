@@ -4,7 +4,7 @@ import { $_hotkey_getShortcuts, $_hotkey_initializeState, $_hotkey_setShortcuts 
 import { useEffect } from "react";
 import { ShortcutForm } from "./components/shortcut-form";
 
-export default function Command() {
+export default function NewShortcut() {
   async function saveShortcut(shortcut: Shortcut, source: string) {
     // const shortcut: Shortcut = { uuid, command, when, hotkey };
     if (!isValidShortcut(shortcut)) {

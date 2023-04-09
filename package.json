@@ -3,7 +3,7 @@
   "name": "hotkey-manager",
   "title": "Hotkey Manager",
   "description": "Manages any hotkeys",
-  "icon": "hotkey-manager.png",
+  "icon": "extension/hotkey-manager.png",
   "author": "devlos",
   "categories": [
     "Developer Tools",

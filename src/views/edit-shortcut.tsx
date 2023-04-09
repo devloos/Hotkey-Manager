@@ -1,8 +1,8 @@
-import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
+import { Toast, popToRoot, showToast } from "@raycast/api";
 import { App, Shortcut, isValidShortcut, formatHotkey } from "../utils";
 import { $_hotkey_getShortcuts, $_hotkey_setShortcuts } from "../assets/mixins";
-import { Keys, ModifierKeys } from "../assets/constants";
 import { useState } from "react";
+import { ShortcutForm } from "../components/shortcut-form";
 
 interface EditShortcutProps {
   app: App;
@@ -13,13 +13,12 @@ export function EditShortcut(props: EditShortcutProps) {
   const { app, shortcut } = props;
 
   const [uuid] = useState<string>(shortcut.uuid);
-  const [command, setCommand] = useState<string>(shortcut.command);
-  const [when, setWhen] = useState<string>(shortcut.when);
-  const [hotkey, setHotkey] = useState<string[]>(shortcut.hotkey);
+  const [command] = useState<string>(shortcut.command);
+  const [when] = useState<string>(shortcut.when);
+  const [hotkey] = useState<string[]>(shortcut.hotkey);
 
-  async function saveShortcut() {
-    const st: Shortcut = { uuid, command, when, hotkey };
-    if (!isValidShortcut(st)) {
+  async function saveShortcut(shortcut: Shortcut, source: string) {
+    if (!isValidShortcut(shortcut)) {
       return;
     }
 
@@ -28,10 +27,18 @@ export function EditShortcut(props: EditShortcutProps) {
       title: "Saving Shortcut",
     });
 
-    const shortcuts = (await $_hotkey_getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
-    formatHotkey(st.hotkey);
-    shortcuts.push(st);
-    await $_hotkey_setShortcuts(app.source, shortcuts);
+    const filteredShortcuts = (await $_hotkey_getShortcuts(app.source)).filter((el) => el.uuid !== uuid);
+    formatHotkey(shortcut.hotkey);
+
+    if (app.source === source) {
+      filteredShortcuts.push(shortcut);
+      await $_hotkey_setShortcuts(app.source, filteredShortcuts);
+    } else {
+      await $_hotkey_setShortcuts(app.source, filteredShortcuts);
+      const shortcuts = await $_hotkey_getShortcuts(source);
+      shortcuts.push(shortcut);
+      await $_hotkey_setShortcuts(source, shortcuts);
+    }
 
     toast.style = Toast.Style.Success;
     toast.title = "Shortcut Saved";
@@ -39,58 +46,11 @@ export function EditShortcut(props: EditShortcutProps) {
   }
 
   return (
-    <Form
+    <ShortcutForm
       navigationTitle="Edit Shortcut"
-      actions={
-        <ActionPanel>
-          <Action.SubmitForm
-            title="Save Shortcut"
-            onSubmit={async () => {
-              await saveShortcut();
-            }}
-          />
-        </ActionPanel>
-      }
-    >
-      <Form.Dropdown id="app" title="App">
-        <Form.Dropdown.Item title={app.title} value={app.source} icon={app.icon} />
-      </Form.Dropdown>
-
-      <Form.Separator />
-
-      <Form.TextField
-        id="command"
-        title="Edit Command"
-        value={command}
-        onChange={(value: string) => {
-          setCommand(value);
-        }}
-      />
-
-      <Form.TextField
-        id="when"
-        title="Edit When"
-        value={when}
-        onChange={(value: string) => {
-          setWhen(value);
-        }}
-      />
-
-      <Form.TagPicker
-        id="keys"
-        title="Edit Hotkey"
-        value={hotkey}
-        onChange={(value: string[]) => {
-          setHotkey(value);
-        }}
-      >
-        {ModifierKeys.map((modifier) => {
-          return <Form.TagPicker.Item value={modifier} title={modifier} key={modifier} />;
-        })}
-        {Keys.map((key) => {
-          return <Form.TagPicker.Item value={key} title={key} key={key} />;
-        })}
-      </Form.TagPicker>
-    </Form>
+      shortcut={{ uuid, command, when, hotkey }}
+      saveShortcut={saveShortcut}
+      source={app.source}
+    />
   );
 }

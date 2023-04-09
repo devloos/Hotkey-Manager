@@ -9,7 +9,7 @@ export interface App {
 }
 
 export function AppDefault(): App {
-  return { title: "", source: "", icon: "" };
+  return { title: "System", source: "system", icon: "apps/system.png" };
 }
 
 export interface Shortcut {

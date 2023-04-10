@@ -1,5 +1,5 @@
 import { LocalStorage } from "@raycast/api";
-import { App, Shortcut } from "../utils";
+import { App, Shortcut, addPreferencesToArray } from "../utils";
 
 export async function $_SM_getApps(): Promise<App[]> {
   const apps: string | undefined = await LocalStorage.getItem("apps");
@@ -42,6 +42,8 @@ export async function $_SM_initializeState() {
     },
   ];
 
+  addPreferencesToArray(DefaultState);
+
   const stringifiedApps: string | undefined = await LocalStorage.getItem("apps");
 
   if (!stringifiedApps) {
@@ -50,11 +52,14 @@ export async function $_SM_initializeState() {
   }
 
   const apps: App[] = JSON.parse(stringifiedApps);
+  addPreferencesToArray(apps);
 
+  // make sure system is always available
   if (!apps.find((el) => el.source === DefaultState[0].source)) {
     apps.push(DefaultState[0]);
   }
 
+  // make sure raycast is always available
   if (!apps.find((el) => el.source === DefaultState[1].source)) {
     apps.push(DefaultState[1]);
   }

@@ -59,3 +59,6 @@ export default function ListShortcuts() {
     </List>
   );
 }
+
+// check whether app supported
+// have that launch when first opened

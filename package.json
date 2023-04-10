@@ -30,6 +30,36 @@
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "chrome",
+      "description": "Enable Chrome App",
+      "type": "checkbox",
+      "label": "Chrome",
+      "required": false
+    },
+    {
+      "name": "discord",
+      "description": "Enable Discord App",
+      "type": "checkbox",
+      "label": "Discord",
+      "required": false
+    },
+    {
+      "name": "tmux",
+      "description": "Enable tmux App",
+      "type": "checkbox",
+      "label": "tmux",
+      "required": false
+    },
+    {
+      "name": "vscode",
+      "description": "Enable Vscode App",
+      "type": "checkbox",
+      "label": "Vscode",
+      "required": false
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.49.2"
   },

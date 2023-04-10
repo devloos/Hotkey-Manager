@@ -10,9 +10,14 @@ export const SupportedApplications = [
     icon: "apps/raycast.png",
   },
   {
-    title: "Vscode",
-    source: "vscode",
-    icon: "apps/vscode.png",
+    title: "Chrome",
+    source: "chrome",
+    icon: "apps/chrome.png",
+  },
+  {
+    title: "Discord",
+    source: "discord",
+    icon: "apps/discord.png",
   },
   {
     title: "tmux",
@@ -20,9 +25,9 @@ export const SupportedApplications = [
     icon: "apps/tmux.png",
   },
   {
-    title: "Discord",
-    source: "discord",
-    icon: "apps/discord.png",
+    title: "Vscode",
+    source: "vscode",
+    icon: "apps/vscode.png",
   },
 ];
 

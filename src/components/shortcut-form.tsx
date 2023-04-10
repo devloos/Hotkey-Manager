@@ -1,5 +1,5 @@
-import { Action, ActionPanel, Form } from "@raycast/api";
-import { App, Shortcut } from "../utils";
+import { Action, ActionPanel, Alert, Form, Toast, confirmAlert, popToRoot, showToast } from "@raycast/api";
+import { App, Shortcut, isValidShortcut, hasHotkeyConflicts } from "../utils";
 import { $_SM_getApps } from "../assets/mixins";
 import { Keys, ModifierKeys } from "../assets/constants";
 import { useEffect, useState } from "react";
@@ -22,6 +22,39 @@ export function ShortcutForm(props: ShortcutFormProps) {
   const [hotkey, setHotkey] = useState<string[]>(shortcut.hotkey);
   const [loading, setLoading] = useState<boolean>(false);
 
+  async function handleSubmit() {
+    if (!isValidShortcut({ uuid, command, when, hotkey })) {
+      return;
+    }
+
+    const hasDuplicates = await hasHotkeyConflicts(uuid, hotkey, source);
+    if (hasDuplicates) {
+      const options: Alert.Options = {
+        title: "Duplicate Hotkeys!",
+        message: "Do you wish to continue?",
+        primaryAction: {
+          title: "Continue",
+          style: Alert.ActionStyle.Default,
+        },
+      };
+
+      if (!(await confirmAlert(options))) {
+        return;
+      }
+    }
+
+    const toast = await showToast({
+      style: Toast.Style.Animated,
+      title: "Saving Shortcut",
+    });
+
+    await props.saveShortcut({ uuid, command, when, hotkey }, source);
+
+    toast.style = Toast.Style.Success;
+    toast.title = "Shortcut Saved";
+    popToRoot();
+  }
+
   useEffect(() => {
     const init = async () => {
       setLoading(true);
@@ -42,7 +75,7 @@ export function ShortcutForm(props: ShortcutFormProps) {
           <Action.SubmitForm
             title="Save Shortcut"
             onSubmit={async () => {
-              await props.saveShortcut({ uuid, command, when, hotkey }, source);
+              await handleSubmit();
             }}
           />
         </ActionPanel>

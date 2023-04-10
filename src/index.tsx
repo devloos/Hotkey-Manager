@@ -60,5 +60,4 @@ export default function ListShortcuts() {
   );
 }
 
-// check whether app supported
 // have that launch when first opened

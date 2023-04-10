@@ -36,28 +36,28 @@
       "description": "Enable Chrome App",
       "type": "checkbox",
       "label": "Chrome",
-      "required": false
+      "required": true
     },
     {
       "name": "discord",
       "description": "Enable Discord App",
       "type": "checkbox",
       "label": "Discord",
-      "required": false
+      "required": true
     },
     {
       "name": "tmux",
       "description": "Enable tmux App",
       "type": "checkbox",
       "label": "tmux",
-      "required": false
+      "required": true
     },
     {
       "name": "vscode",
       "description": "Enable Vscode App",
       "type": "checkbox",
       "label": "Vscode",
-      "required": false
+      "required": true
     }
   ],
   "dependencies": {

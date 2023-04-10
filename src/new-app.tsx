@@ -1,7 +1,7 @@
 import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
 import { $_SM_getApps, $_SM_initializeState, $_SM_setApps } from "./assets/mixins";
 import { App } from "./utils";
-import { SupportedLogos } from "./assets/constants";
+import { SupportedApplications, SupportedLogos } from "./assets/constants";
 import { useEffect, useState } from "react";
 
 export default function NewApp() {
@@ -11,7 +11,7 @@ export default function NewApp() {
   async function saveApp() {
     if (appName.length === 0) {
       showToast({
-        title: "App name empty",
+        title: "App name empty.",
         style: Toast.Style.Failure,
       });
       return;
@@ -20,7 +20,16 @@ export default function NewApp() {
     const apps = await $_SM_getApps();
     if (apps.some((el) => el.source === appName.toLowerCase())) {
       showToast({
-        title: "Already existing source",
+        title: "Already existing source.",
+        style: Toast.Style.Failure,
+      });
+      return;
+    }
+
+    if (SupportedApplications.some((el) => el.source === appName.toLowerCase())) {
+      showToast({
+        title: "Supported application exists.",
+        message: "Enable application in command configuration.",
         style: Toast.Style.Failure,
       });
       return;

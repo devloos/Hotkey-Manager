@@ -20,12 +20,17 @@ export const SupportedApplications = [
     icon: "apps/discord.png",
   },
   {
+    title: "Neovim",
+    source: "neovim",
+    icon: "apps/neovim.png",
+  },
+  {
     title: "tmux",
     source: "tmux",
     icon: "apps/tmux.png",
   },
   {
-    title: "Vscode",
+    title: "VSCode",
     source: "vscode",
     icon: "apps/vscode.png",
   },

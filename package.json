@@ -46,6 +46,13 @@
       "required": true
     },
     {
+      "name": "neovim",
+      "description": "Enable Discord App",
+      "type": "checkbox",
+      "label": "Neovim",
+      "required": true
+    },
+    {
       "name": "tmux",
       "description": "Enable tmux App",
       "type": "checkbox",
@@ -54,9 +61,9 @@
     },
     {
       "name": "vscode",
-      "description": "Enable Vscode App",
+      "description": "Enable VSCode App",
       "type": "checkbox",
-      "label": "Vscode",
+      "label": "VSCode",
       "required": true
     }
   ],

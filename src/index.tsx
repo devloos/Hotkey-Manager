@@ -52,7 +52,7 @@ export default function ListShortcuts() {
       }
       actions={
         <ActionPanel>
-          <Action.Push title="Create New Shortcut" target={<NewShortcut />} />
+          <Action.Push title="Create New Shortcut" target={<NewShortcut source={app.source} />} />
           <Action.Push title="Create New App" target={<NewApp />} />
           {!isDefaultApp() ? (
             <Action

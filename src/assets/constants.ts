@@ -94,7 +94,7 @@ export const SupportedLogos = [
   },
 ];
 
-export const ModifierKeys = ["hyper", "prefix", "cmd", "ctrl", "opt", "shift"];
+export const ModifierKeys = ["hyper", "prefix", "leader", "cmd", "ctrl", "opt", "shift"];
 export const Keys = [
   "a",
   "b",

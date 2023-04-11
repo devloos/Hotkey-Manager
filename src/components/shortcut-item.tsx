@@ -2,6 +2,7 @@ import { Action, ActionPanel, Color, List, Toast, showToast } from "@raycast/api
 import { App, Shortcut, confirm, deleteApp, hotkeyToString } from "../utils";
 import { $_SM_getShortcuts, $_SM_setShortcuts } from "../assets/mixins";
 import { EditShortcut } from "../views/edit-shortcut";
+import NewShortcut from "../new-shortcut";
 
 interface ShortcutItemProps {
   app: App;
@@ -37,29 +38,28 @@ export default function ShortcutItem(props: ShortcutItemProps) {
       accessories={[{ tag: { color: Color.PrimaryText, value: hotkeyToString(shortcut.hotkey) } }]}
       actions={
         <ActionPanel>
-          <ActionPanel.Submenu title="Modify State">
-            <Action.Push
-              title="Edit Shortcut"
-              shortcut={{ modifiers: ["cmd"], key: "enter" }}
-              target={<EditShortcut app={app} shortcut={shortcut} />}
-            />
+          <Action.Push title="Create New Shortcut" target={<NewShortcut source={app.source} />} />
+          <Action.Push
+            title="Edit Shortcut"
+            shortcut={{ modifiers: ["cmd"], key: "enter" }}
+            target={<EditShortcut app={app} shortcut={shortcut} />}
+          />
+          <Action
+            title="Delete Shortcut"
+            shortcut={{ modifiers: ["cmd"], key: "backspace" }}
+            onAction={async () => {
+              await deleteShortcut();
+            }}
+          />
+          {!isDefaultApp() ? (
             <Action
-              title="Delete Shortcut"
-              shortcut={{ modifiers: ["cmd"], key: "backspace" }}
+              title={"Delete " + app.title}
+              shortcut={{ modifiers: ["cmd", "shift"], key: "backspace" }}
               onAction={async () => {
-                await deleteShortcut();
+                await deleteApp(app);
               }}
             />
-            {!isDefaultApp() ? (
-              <Action
-                title={"Delete " + app.title}
-                shortcut={{ modifiers: ["cmd", "shift"], key: "backspace" }}
-                onAction={async () => {
-                  await deleteApp(app);
-                }}
-              />
-            ) : null}
-          </ActionPanel.Submenu>
+          ) : null}
         </ActionPanel>
       }
     />

@@ -3,7 +3,11 @@ import { $_SM_getShortcuts, $_SM_initializeState, $_SM_setShortcuts } from "./as
 import { useEffect } from "react";
 import { ShortcutForm } from "./components/shortcut-form";
 
-export default function NewShortcut() {
+interface NewShortcutProps {
+  source?: string;
+}
+
+export default function NewShortcut(props: NewShortcutProps) {
   async function saveShortcut(shortcut: Shortcut, source: string) {
     const shortcuts = await $_SM_getShortcuts(source);
     formatHotkey(shortcut.hotkey);
@@ -20,6 +24,11 @@ export default function NewShortcut() {
   }, []);
 
   return (
-    <ShortcutForm navigationTitle="New Shortcut" shortcut={ShortcutDefault()} saveShortcut={saveShortcut} source="" />
+    <ShortcutForm
+      navigationTitle="New Shortcut"
+      shortcut={ShortcutDefault()}
+      saveShortcut={saveShortcut}
+      source={props?.source ? props.source : ""}
+    />
   );
 }

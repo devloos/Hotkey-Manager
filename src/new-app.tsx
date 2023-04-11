@@ -1,4 +1,14 @@
-import { Action, ActionPanel, Form, Toast, popToRoot, showToast } from "@raycast/api";
+import {
+  Action,
+  ActionPanel,
+  Alert,
+  Form,
+  Toast,
+  confirmAlert,
+  openExtensionPreferences,
+  popToRoot,
+  showToast,
+} from "@raycast/api";
 import { $_SM_getApps, $_SM_initializeState, $_SM_setApps } from "./assets/mixins";
 import { App } from "./utils";
 import { SupportedApplications, SupportedLogos } from "./assets/constants";
@@ -29,9 +39,22 @@ export default function NewApp() {
     if (SupportedApplications.some((el) => el.source === appName.toLowerCase())) {
       showToast({
         title: "Supported application exists.",
-        message: "Enable application in command configuration.",
         style: Toast.Style.Failure,
       });
+
+      const options: Alert.Options = {
+        title: "Open Preferences",
+        message: "Head to preferences to enable?",
+        primaryAction: {
+          title: "Take Me!",
+          style: Alert.ActionStyle.Default,
+        },
+      };
+
+      if (await confirmAlert(options)) {
+        await openExtensionPreferences();
+      }
+
       return;
     }
 

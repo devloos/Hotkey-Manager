@@ -1,5 +1,5 @@
 import { $_SM_getApps, $_SM_getShortcuts, $_SM_initializeState } from "./assets/mixins";
-import { App, Shortcut, AppDefault } from "./utils";
+import { App, Shortcut, AppDefault, deleteApp } from "./utils";
 import { Action, ActionPanel, List } from "@raycast/api";
 import { useEffect, useState } from "react";
 import ShortcutItem from "./components/shortcut-item";
@@ -22,6 +22,10 @@ export default function ListShortcuts() {
       setApp(currApp);
     }
     setLoading(false);
+  }
+
+  function isDefaultApp(): boolean {
+    return app.source === "system" || app.source === "raycast";
   }
 
   useEffect(() => {
@@ -50,6 +54,15 @@ export default function ListShortcuts() {
         <ActionPanel>
           <Action.Push title="Create New Shortcut" target={<NewShortcut />} />
           <Action.Push title="Create New App" target={<NewApp />} />
+          {!isDefaultApp() ? (
+            <Action
+              title={"Delete " + app.title}
+              shortcut={{ modifiers: ["cmd", "shift"], key: "backspace" }}
+              onAction={async () => {
+                await deleteApp(app);
+              }}
+            />
+          ) : null}
         </ActionPanel>
       }
     >

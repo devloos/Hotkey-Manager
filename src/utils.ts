@@ -1,7 +1,16 @@
-import { Toast, getPreferenceValues, showToast } from "@raycast/api";
+import {
+  Alert,
+  LocalStorage,
+  Toast,
+  confirmAlert,
+  getPreferenceValues,
+  openExtensionPreferences,
+  popToRoot,
+  showToast,
+} from "@raycast/api";
 import { randomUUID } from "crypto";
 import { ModifierKeys, SupportedApplications } from "./assets/constants";
-import { $_SM_getShortcuts } from "./assets/mixins";
+import { $_SM_getApps, $_SM_getShortcuts, $_SM_setApps, $_SM_setShortcuts } from "./assets/mixins";
 
 export interface App {
   title: string;
@@ -157,5 +166,86 @@ export function addPreferencesToArray(data: App[]) {
         data.splice(idx, 1);
       }
     }
+  });
+}
+
+export async function confirm(title: string): Promise<boolean> {
+  const options: Alert.Options = {
+    title,
+    message: "You will not be able to recover it.",
+    primaryAction: {
+      title: "Delete",
+      style: Alert.ActionStyle.Destructive,
+    },
+  };
+
+  return !(await confirmAlert(options));
+}
+
+export async function deleteApp(app: App) {
+  if (await confirm("Delete Application")) {
+    return;
+  }
+
+  if (SupportedApplications.some((el) => el.source === app.source)) {
+    const options: Alert.Options = {
+      title: "Supported Application!",
+      message: "Head to preferences to disable?",
+      primaryAction: {
+        title: "Yes",
+        style: Alert.ActionStyle.Default,
+      },
+    };
+
+    if (await confirmAlert(options)) {
+      await openExtensionPreferences();
+    }
+
+    return;
+  }
+
+  const apps = (await $_SM_getApps()).filter((el) => el.source !== app.source);
+  await $_SM_setApps(apps);
+  showToast({
+    title: "Application Deleted",
+    style: Toast.Style.Success,
+  });
+  popToRoot();
+}
+
+export async function cleanAndInitialize(apps: App[]) {
+  interface ShortcutState {
+    source: string;
+    shortcuts: Shortcut[];
+  }
+
+  addPreferencesToArray(apps);
+
+  apps.sort((a, b) => {
+    if (a.source > b.source) {
+      return 1;
+    }
+
+    if (a.source < b.source) {
+      return -1;
+    }
+
+    return 0;
+  });
+
+  const newShortcutsState: ShortcutState[] = [];
+  apps.forEach(async (app) => {
+    const shortcuts = await $_SM_getShortcuts(app.source);
+    newShortcutsState.push({
+      source: app.source,
+      shortcuts,
+    });
+  });
+
+  await LocalStorage.clear();
+
+  await $_SM_setApps(apps);
+  newShortcutsState.forEach(async (state) => {
+    await $_SM_setShortcuts(state.source, state.shortcuts);
   });
 }

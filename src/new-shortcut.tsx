@@ -24,11 +24,6 @@ export default function NewShortcut(props: NewShortcutProps) {
   }, []);
 
   return (
-    <ShortcutForm
-      navigationTitle="New Shortcut"
-      shortcut={ShortcutDefault()}
-      saveShortcut={saveShortcut}
-      source={props?.source ? props.source : ""}
-    />
+    <ShortcutForm shortcut={ShortcutDefault()} saveShortcut={saveShortcut} source={props?.source ? props.source : ""} />
   );
 }

@@ -92,7 +92,6 @@ export default function NewApp() {
 
   return (
     <Form
-      navigationTitle="Create New App"
       actions={
         <ActionPanel>
           <Action.SubmitForm

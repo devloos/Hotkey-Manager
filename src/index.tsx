@@ -43,6 +43,7 @@ export default function ListShortcuts() {
   return (
     <List
       isLoading={loading}
+      searchBarPlaceholder="Search for Shortcut"
       searchBarAccessory={
         <List.Dropdown tooltip="Apps" onChange={async (source) => handleAppChange(source)}>
           {apps.map((app: App) => {
@@ -72,5 +73,3 @@ export default function ListShortcuts() {
     </List>
   );
 }
-
-// have that launch when first opened

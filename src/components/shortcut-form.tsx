@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 interface ShortcutFormProps {
   shortcut: Shortcut;
   source: string;
-  navigationTitle: string;
   saveShortcut: (shortcut: Shortcut, source: string) => Promise<void>;
 }
 
@@ -113,7 +112,6 @@ export function ShortcutForm(props: ShortcutFormProps) {
   return (
     <Form
       isLoading={loading}
-      navigationTitle={props.navigationTitle}
       actions={
         <ActionPanel>
           <Action.SubmitForm

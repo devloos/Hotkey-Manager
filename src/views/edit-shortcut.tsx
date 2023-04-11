@@ -31,12 +31,5 @@ export function EditShortcut(props: EditShortcutProps) {
     }
   }
 
-  return (
-    <ShortcutForm
-      navigationTitle="Edit Shortcut"
-      shortcut={{ uuid, command, when, hotkey }}
-      saveShortcut={saveShortcut}
-      source={app.source}
-    />
-  );
+  return <ShortcutForm shortcut={{ uuid, command, when, hotkey }} saveShortcut={saveShortcut} source={app.source} />;
 }

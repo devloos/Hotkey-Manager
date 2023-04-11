@@ -10,6 +10,16 @@ export const SupportedApplications = [
     icon: "apps/raycast.png",
   },
   {
+    title: "Adobe Photoshop",
+    source: "adobe-photoshop",
+    icon: "apps/adobe-photoshop.png",
+  },
+  {
+    title: "Adobe Premiere Pro",
+    source: "adobe-premiere-pro",
+    icon: "apps/adobe-premiere-pro.png",
+  },
+  {
     title: "Chrome",
     source: "chrome",
     icon: "apps/chrome.png",
@@ -20,9 +30,24 @@ export const SupportedApplications = [
     icon: "apps/discord.png",
   },
   {
+    title: "Final Cut Pro",
+    source: "final-cut-pro",
+    icon: "apps/final-cut-pro.png",
+  },
+  {
+    title: "Firefox",
+    source: "firefox",
+    icon: "apps/firefox.png",
+  },
+  {
     title: "Neovim",
     source: "neovim",
     icon: "apps/neovim.png",
+  },
+  {
+    title: "Sublime Text",
+    source: "sublime-text",
+    icon: "apps/sublime-text.png",
   },
   {
     title: "tmux",

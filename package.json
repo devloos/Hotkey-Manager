@@ -32,36 +32,71 @@
   ],
   "preferences": [
     {
+      "name": "adobe-photoshop",
+      "description": "Enable Adobe Photoshop",
+      "type": "checkbox",
+      "label": "Adobe Photoshop",
+      "required": true
+    },
+    {
+      "name": "adobe-premiere-pro",
+      "description": "Enable Adobe Premiere Pro",
+      "type": "checkbox",
+      "label": "Adobe Premiere Pro",
+      "required": true
+    },
+    {
       "name": "chrome",
-      "description": "Enable Chrome App",
+      "description": "Enable Chrome",
       "type": "checkbox",
       "label": "Chrome",
       "required": true
     },
     {
       "name": "discord",
-      "description": "Enable Discord App",
+      "description": "Enable Discord",
       "type": "checkbox",
       "label": "Discord",
       "required": true
     },
     {
+      "name": "final-cut-pro",
+      "description": "Enable Final Cut Pro",
+      "type": "checkbox",
+      "label": "Final Cut Pro",
+      "required": true
+    },
+    {
+      "name": "firefox",
+      "description": "Enable Firefox",
+      "type": "checkbox",
+      "label": "Firefox",
+      "required": true
+    },
+    {
       "name": "neovim",
-      "description": "Enable Discord App",
+      "description": "Enable Discord",
       "type": "checkbox",
       "label": "Neovim",
       "required": true
     },
     {
+      "name": "sublime-text",
+      "description": "Enable Sublime Text",
+      "type": "checkbox",
+      "label": "Sublime Text",
+      "required": true
+    },
+    {
       "name": "tmux",
-      "description": "Enable tmux App",
+      "description": "Enable tmux",
       "type": "checkbox",
       "label": "tmux",
       "required": true
     },
     {
       "name": "vscode",
-      "description": "Enable VSCode App",
+      "description": "Enable VSCode",
       "type": "checkbox",
       "label": "VSCode",
       "required": true

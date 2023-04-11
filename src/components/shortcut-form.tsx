@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Alert, Form, Toast, confirmAlert, popToRoot, showToast } from "@raycast/api";
-import { App, Shortcut, isValidShortcut, hasHotkeyConflicts } from "../utils";
+import { App, Shortcut, hasHotkeyConflicts, arrayEmpty } from "../utils";
 import { $_SM_getApps } from "../assets/mixins";
 import { Keys, ModifierKeys } from "../assets/constants";
 import { useEffect, useState } from "react";
@@ -21,6 +21,50 @@ export function ShortcutForm(props: ShortcutFormProps) {
   const [when, setWhen] = useState<string>(shortcut.when);
   const [hotkey, setHotkey] = useState<string[]>(shortcut.hotkey);
   const [loading, setLoading] = useState<boolean>(false);
+
+  function isValidShortcut(shortcut: Shortcut): boolean {
+    if (!shortcut.uuid) {
+      showToast({
+        title: "UUID missing.",
+        style: Toast.Style.Failure,
+      });
+      return false;
+    }
+
+    if (!shortcut.command) {
+      showToast({
+        title: "Command missing.",
+        style: Toast.Style.Failure,
+      });
+      return false;
+    }
+
+    if (!shortcut.when) {
+      showToast({
+        title: "When clause missing.",
+        style: Toast.Style.Failure,
+      });
+      return false;
+    }
+
+    if (arrayEmpty(shortcut.hotkey)) {
+      showToast({
+        title: "Hotkey missing.",
+        style: Toast.Style.Failure,
+      });
+      return false;
+    }
+
+    if (!ModifierKeys.some((el) => shortcut.hotkey.includes(el))) {
+      showToast({
+        title: "Modifier(s) missing.",
+        style: Toast.Style.Failure,
+      });
+      return false;
+    }
+
+    return true;
+  }
 
   async function handleSubmit() {
     if (!isValidShortcut({ uuid, command, when, hotkey })) {

@@ -43,6 +43,7 @@ export function LogoDefault(): Logo {
   return { title: "", source: "", path: "" };
 }
 
+// hotkey to pretty string
 export function hotkeyToString(hotkeys: string[]): string {
   let hotkey = "";
   hotkeys.forEach((el) => {
@@ -53,6 +54,7 @@ export function hotkeyToString(hotkeys: string[]): string {
   return hotkey;
 }
 
+// This function moves modifier keys to the front of the array
 export function formatHotkey(hotkeys: string[]) {
   ModifierKeys.reverse().forEach((key) => {
     const idx = hotkeys.findIndex((el) => el === key);
@@ -60,50 +62,6 @@ export function formatHotkey(hotkeys: string[]) {
       hotkeys.splice(0, 0, hotkeys.splice(idx, 1)[0]);
     }
   });
-}
-
-export function isValidShortcut(shortcut: Shortcut): boolean {
-  if (!shortcut.uuid) {
-    showToast({
-      title: "UUID missing.",
-      style: Toast.Style.Failure,
-    });
-    return false;
-  }
-
-  if (!shortcut.command) {
-    showToast({
-      title: "Command missing.",
-      style: Toast.Style.Failure,
-    });
-    return false;
-  }
-
-  if (!shortcut.when) {
-    showToast({
-      title: "When clause missing.",
-      style: Toast.Style.Failure,
-    });
-    return false;
-  }
-
-  if (arrayEmpty(shortcut.hotkey)) {
-    showToast({
-      title: "Hotkey missing.",
-      style: Toast.Style.Failure,
-    });
-    return false;
-  }
-
-  if (!ModifierKeys.some((el) => shortcut.hotkey.includes(el))) {
-    showToast({
-      title: "Modifier(s) missing.",
-      style: Toast.Style.Failure,
-    });
-    return false;
-  }
-
-  return true;
 }
 
 export function arrayEmpty(data: string[] | Shortcut[] | App[]): boolean {

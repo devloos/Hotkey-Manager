@@ -59,6 +59,7 @@ export default function NewApp() {
     }
 
     const logo = SupportedLogos.find((el) => el.source === logoSource);
+    // this should not happen
     if (!logo) {
       showToast({
         title: "ERROR: logo not found.",
